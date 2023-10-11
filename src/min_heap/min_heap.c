@@ -2,28 +2,36 @@
 
 struct min_heap {
     Item *items;
+    int *map;
     int size;
     int capacity;
 };
 
+void swap(MinHeap* heap, int i, int j) {
+    exch(heap->items[i], heap->items[j]);
+    heap->map[id(heap->items[i])] = i;
+    heap->map[id(heap->items[j])] = j;
+}
+
 MinHeap *min_heap_create(int capacity) {
     MinHeap *heap = malloc(sizeof(MinHeap));
     heap->items = malloc(sizeof(Item) * (capacity + 1));
+    heap->map = malloc(sizeof(int) * (capacity + 1));
     heap->size = 0;
     heap->capacity = capacity;
     return heap;
 }
 
 void min_heap_destroy(MinHeap *heap) {
+    free(heap->map);
     free(heap->items);
     free(heap);
 }
 
-// Função recursiva para manter a propriedade de heap mínimo ao inserir um item
 void min_heap_heapify(MinHeap *heap, int i) {
-    int smallest = i;
     int left = 2 * i;
     int right = 2 * i + 1;
+    int smallest = i;
     if (left <= heap->size && less(heap->items[left], heap->items[smallest])) {
         smallest = left;
     }
@@ -31,44 +39,37 @@ void min_heap_heapify(MinHeap *heap, int i) {
         smallest = right;
     }
     if (smallest != i) {
-        Item temp = heap->items[i];
-        heap->items[i] = heap->items[smallest];
-        heap->items[smallest] = temp;
+        swap(heap, i, smallest);
         min_heap_heapify(heap, smallest);
     }
 }
 
 Item min_heap_remove(MinHeap *heap) {
     Item item = heap->items[1];
-    heap->items[1] = heap->items[heap->size--];
+    swap(heap, 1, heap->size--);
     min_heap_heapify(heap, 1);
     return item;
 }
 
-// Função recursiva para manter a propriedade de heap mínimo ao subir um item
 void min_heap_heapup(MinHeap *heap, int i) {
     if (i > 1 && less(heap->items[i], heap->items[i / 2])) {
-        Item temp = heap->items[i];
-        heap->items[i] = heap->items[i / 2];
-        heap->items[i / 2] = temp;
+        swap(heap, i, i / 2);
         min_heap_heapup(heap, i / 2);
     }
 }
 
 void min_heap_insert(MinHeap *heap, Item item) {
-    if (heap->size == heap->capacity) {
-        heap->capacity *= 2;
-        heap->items = realloc(heap->items, sizeof(Item) * (heap->capacity + 1));
-    }
-    heap->items[++heap->size] = item;
+    heap->size++;
+    heap->items[heap->size] = item;
+    heap->map[id(item)] = heap->size;
     min_heap_heapup(heap, heap->size);
 }
 
-
-// Muda a chave de um item e o reposiciona na heap, podendo subir ou descer
-// void min_heap_decrease_key(MinHeap *heap, int id, double value) {
-    
-// }
+void min_heap_decrease_key(MinHeap *heap, int id, double value) {
+    int i = heap->map[id];
+    value(heap->items[i]) = value;
+    min_heap_heapup(heap, i);
+}
 
 Item min_heap_get_min(MinHeap *heap) {
     return heap->items[1];

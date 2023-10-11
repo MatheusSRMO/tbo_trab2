@@ -12,4 +12,4 @@ typedef struct {
 #define less(A, B)      (value(A) < value(B))           // compara nós, por valor
 #define exch(A, B)      { Item t = A; A = B; B = t; }   // troca dois nós
 
-#endif
+#endif // ITEM_H
