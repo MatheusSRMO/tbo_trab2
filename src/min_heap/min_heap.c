@@ -7,6 +7,14 @@ struct min_heap {
     int capacity;
 };
 
+Item make_item(int id, double value) {
+    Item t;
+    id(t) = id;
+    value(t) = value;
+    return t;
+}
+
+
 void swap(MinHeap* heap, int i, int j) {
     exch(heap->items[i], heap->items[j]);
     heap->map[id(heap->items[i])] = i;

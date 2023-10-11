@@ -5,10 +5,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include "item.h"
+#include "../item.h"
 
 
 typedef struct min_heap MinHeap;
+
+Item make_item(int id, double value);
 
 MinHeap *min_heap_create(int capacity);
 

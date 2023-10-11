@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "min_heap.h": "c",
+        "dijkstra.h": "c"
+    }
+}
