@@ -11,7 +11,7 @@
 #include "../item.h"
 
 
-int dijkstra(Graph *graph, int source, int target);
+int dijkstra(Graph *graph, int source, int target, int *dist, MinHeap *heap);
 
 int dijkstra_path(Graph *graph, int source, int target, int *path, int *size);
 

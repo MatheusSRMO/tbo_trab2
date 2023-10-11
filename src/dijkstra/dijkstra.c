@@ -1,14 +1,18 @@
 #include "dijkstra.h"
 
-
-int dijkstra(Graph *graph, int source, int target) {
-    int *dist = (int *) malloc(sizeof(int) * graph_get_V(graph));
+// Dijkstra's algorithm.
+// Complexity: O(V + ElogV)
+int dijkstra(Graph *graph, int source, int target, int *dist, MinHeap *heap) {
+    // Initialize the dist vector with INT_MAX.
     for (int i = 0; i < graph_get_V(graph); i++) {
         dist[i] = INT_MAX;
     }
     dist[source] = 0;
 
-    MinHeap *heap = min_heap_create(graph_get_V(graph));
+    // Clear the min heap.
+    min_heap_clear(heap);
+
+    // Insert all vertices into the min heap.
     for (int i = 0; i < graph_get_V(graph); i++) {
         min_heap_insert(heap, make_item(i, dist[i]));
     }
@@ -17,9 +21,9 @@ int dijkstra(Graph *graph, int source, int target) {
         Item item = min_heap_remove(heap);
         int u = id(item);
 
-        // Verifica se encontramos o alvo
+        // Verify if we found the target.
         if (u == target) {
-            break; // Encerra o loop se o alvo for encontrado
+            break; // Stop the loop if the target is found.
         }
 
         Node *node = graph_get_adjacency_list(graph, u);
@@ -33,27 +37,12 @@ int dijkstra(Graph *graph, int source, int target) {
         }
     }
 
-    min_heap_destroy(heap);
-
     int weight = dist[target];
 
-    free(dist);
-
-    return weight; // Retorna o peso do caminho.
+    return weight; // Return the weight of the path.
 }
 
-/*
- * Retorna o peso do caminho entre source e target.
-    * param graph: grafo
-    * param source: vértice de origem
-    * param target: vértice de destino
-    * param path: vetor de inteiros que armazenará o caminho
-    * param size: tamanho do caminho
-    * return: peso do caminho
-    * Obs.: o vetor path deve ser alocado antes da chamada da função.
-    * Obs.: o vetor path deve ser desalocado após o uso.
-    * Obs.: o vetor path deve ser alocado com tamanho igual ao número de vértices do grafo.
- */
+
 int dijkstra_path(Graph *graph, int source, int target, int *path, int *size) {
     int *dist = (int *) malloc(sizeof(int) * graph_get_V(graph));
     int *prev = (int *) malloc(sizeof(int) * graph_get_V(graph));

@@ -114,3 +114,7 @@ void min_heap_write_dot(MinHeap *heap, char *file_name) {
     system(command);
     remove(file_name);
 }
+
+void min_heap_clear(MinHeap *heap) {
+    heap->size = 0;
+}

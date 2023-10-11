@@ -34,4 +34,6 @@ int min_heap_size(MinHeap *heap);
 
 void min_heap_write_dot(MinHeap *heap, char *file_name);
 
+void min_heap_clear(MinHeap *heap);
+
 #endif // _MIN_HEAP_H_
