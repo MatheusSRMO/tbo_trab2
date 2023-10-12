@@ -6,14 +6,14 @@
 
 typedef struct node Node;
 
-Node *node_contruct(int target, float weight, Node *next);
+Node *node_contruct(int target, double weight, Node *next);
 
 
 void node_destroy(Node *node);
 
 bool node_is_null(Node *node);
 
-float node_get_weight(Node *node);
+double node_get_weight(Node *node);
 
 int node_get_target(Node *node);
 

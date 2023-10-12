@@ -10,7 +10,7 @@ void g_swap(int *a, int *b) {
 struct graph {
     int V;                      // Número de vértices
     int E;                      // Número de arestas
-    float **adjacency_matrix;   // Matriz de adjacência
+    double **adjacency_matrix;   // Matriz de adjacência
     Node **adjacency_list;      // Lista de adjacência
     graph_type type;            // Tipo do grafo
     graph_direction direction;  // Se é direcionado ou não
@@ -27,9 +27,9 @@ Graph *graph_create(int V, graph_type type, graph_direction direction) {
     // Se for um grafo não direcionado
     if (direction == undirected && type == adj_matrix) {
         // Se for uma matriz de adjacência, aloca uma matriz triangular
-        graph->adjacency_matrix = (float **) malloc(sizeof(float *) * V);
+        graph->adjacency_matrix = (double **) malloc(sizeof(double *) * V);
         for (int i = 0; i < V; i++) {
-            graph->adjacency_matrix[i] = (float *) malloc(sizeof(float) * i);
+            graph->adjacency_matrix[i] = (double *) malloc(sizeof(double) * i);
             for (int j = 0; j < i; j++) {
                 graph->adjacency_matrix[i][j] = 0;
             }
@@ -39,9 +39,9 @@ Graph *graph_create(int V, graph_type type, graph_direction direction) {
     // Se for um grafo direcionado
     else if (direction == directed && type == adj_matrix) {
         // Se for uma matriz de adjacência, aloca uma matriz quadrada
-        graph->adjacency_matrix = (float **) malloc(sizeof(float *) * V);
+        graph->adjacency_matrix = (double **) malloc(sizeof(double *) * V);
         for (int i = 0; i < V; i++) {
-            graph->adjacency_matrix[i] = (float *) malloc(sizeof(float) * V);
+            graph->adjacency_matrix[i] = (double *) malloc(sizeof(double) * V);
             for (int j = 0; j < V; j++) {
                 graph->adjacency_matrix[i][j] = 0;
             }
@@ -63,7 +63,7 @@ Node* graph_get_adjacency_list(Graph *graph, int v) {
     return graph->adjacency_list[v];
 }
 
-void graph_add_edge(Graph *graph, int v, int w, float weight) {
+void graph_add_edge(Graph *graph, int v, int w, double weight) {
     // Se for um grafo não direcionado, a matriz de adjacência é triangular
     if (graph->direction == undirected && graph->type == adj_matrix) {
         if(v < w) g_swap(&v, &w);
@@ -89,7 +89,7 @@ void graph_add_edge(Graph *graph, int v, int w, float weight) {
     }
 }
 
-float graph_get_weight(Graph *graph, int v, int w) {
+double graph_get_weight(Graph *graph, int v, int w) {
     // Se for um grafo não direcionado, a matriz de adjacência é triangular
     if (graph->direction == undirected && graph->type == adj_matrix) {
         if(v < w) g_swap(&v, &w);

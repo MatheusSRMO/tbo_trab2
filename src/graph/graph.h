@@ -40,7 +40,7 @@ Node* graph_get_adjacency_list(Graph *graph, int v);
  * param w: vértice w
  * param weight: peso da aresta
  */
-void graph_add_edge(Graph *graph, int v, int w, float weight);
+void graph_add_edge(Graph *graph, int v, int w, double weight);
 
 /*
  * Pega o peso da aresta entre os vértices v e w.
@@ -49,7 +49,7 @@ void graph_add_edge(Graph *graph, int v, int w, float weight);
  * param w: vértice w
  * return: peso da aresta
  */
-float graph_get_weight(Graph *graph, int v, int w);
+double graph_get_weight(Graph *graph, int v, int w);
 
 /*
  * Pega o número de vértices do grafo.

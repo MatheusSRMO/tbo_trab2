@@ -1,8 +1,18 @@
 #include "dijkstra.h"
 
+int is_in(int v, int *vertices, int size) {
+    for(int i = 0; i < size; i++) {
+        if(vertices[i] == v) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+
 // Dijkstra's algorithm.
 // Complexity: O(V + ElogV)
-int dijkstra(Graph *graph, int source, int target, int *dist, MinHeap *heap) {
+double dijkstra(Graph *graph, int source, int target, double *dist, MinHeap *heap) {
     // Initialize the dist vector with INT_MAX.
     for (int i = 0; i < graph_get_V(graph); i++) {
         dist[i] = INT_MAX;
@@ -37,7 +47,7 @@ int dijkstra(Graph *graph, int source, int target, int *dist, MinHeap *heap) {
         }
     }
 
-    int weight = dist[target];
+    double weight = dist[target];
 
     return weight; // Return the weight of the path.
 }
@@ -106,3 +116,48 @@ int dijkstra_path(Graph *graph, int source, int target, int *path, int *size) {
     return weight; // Retorna o peso do caminho.
 }
 
+/*
+Ideia: Executar Dijstra para cada vértice s∈S, guardar na linha correspondente a s na matriz a distancia minima de s para c se c∈C,
+
+a linha de s tem tamanho |C|, a matriz tem tamanho |S|×|C|.
+
+Complexidade: O(|S|×(|V|+|E|log|V|))
+*/
+
+// Função dijkstra que retorna a linha, dada um s e um conjunto C
+void dijkstra_line(Graph *graph, int source, double *line, int *c, int size_c, double *dist, MinHeap* heap) {
+    // Initialize the dist vector with INT_MAX.
+    for (int i = 0; i < graph_get_V(graph); i++) {
+        dist[i] = INT_MAX;
+    }
+    dist[source] = 0;
+
+    // Clear the min heap.
+    min_heap_clear(heap);
+
+    // Insert all vertices into the min heap.
+    for (int i = 0; i < graph_get_V(graph); i++) {
+        min_heap_insert(heap, make_item(i, dist[i]));
+    }
+
+    while (!min_heap_is_empty(heap)) {
+        Item item = min_heap_remove(heap);
+        int u = id(item);
+
+        // Verify id u is in C
+        int index = is_in(u, c, size_c);
+        if (index != -1) {
+            line[index] = dist[u];
+        }
+
+        Node *node = graph_get_adjacency_list(graph, u);
+        while (!node_is_null(node)) {
+            int v = node_get_target(node);
+            if (dist[v] > dist[u] + node_get_weight(node)) {
+                dist[v] = dist[u] + node_get_weight(node);
+                min_heap_decrease_key(heap, v, dist[v]);
+            }
+            node = node_get_next(node);
+        }
+    }
+}
