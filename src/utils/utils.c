@@ -65,10 +65,25 @@ int ratio_compare(const void *a, const void *b) {
     Ratio *rb = (Ratio *) b;
     if(ra->ratio < rb->ratio) {
         return -1;
-    } else if(ra->ratio > rb->ratio) {
+    }
+    else if(ra->ratio > rb->ratio) {
         return 1;
-    } else {
+    }
+    else {
         return 0;
     }
 }
 
+int int_compare(const void *a, const void *b) {
+    int *ia = (int *) a;
+    int *ib = (int *) b;
+    if(*ia < *ib) {
+        return -1;
+    }
+    else if(*ia > *ib) {
+        return 1;
+    }
+    else {
+        return 0;
+    }
+}
