@@ -1,25 +1,5 @@
 #include "dijkstra.h"
 
-int is_in(int v, int *vertices, int size) {    
-    for(int i = 0; i < size; i++) {        
-        if(vertices[i] == v) {            
-            return i;
-        }
-    }    
-    return -1;
-}
-
-void print_vector(int *vector, int size) {
-    printf("[");
-    for(int i = 0; i < size; i++) {
-        printf("%d", vector[i]);
-        if(i != size - 1) {
-            printf(", ");
-        }
-    }
-    printf("]\n");
-    printf("\n");
-}
 
 // Função dijkstra que retorna a linha, dada um s e um conjunto C
 void dijkstra_line(Graph *graph, int source, double *line, int *set_target_a, int size_set_target_a, int *set_target_b, int size_set_target_b, int *map, double *dist, MinHeap *heap) {
@@ -42,7 +22,7 @@ void dijkstra_line(Graph *graph, int source, double *line, int *set_target_a, in
         int u = id(item);
 
         // Verifica se o vértice u está no conjunto A
-        int index = is_in(u, set_target_a, size_set_target_a);
+        int index = get_index_binary(u, set_target_a, size_set_target_a);
         if (index != -1) {
             // Se estiver, armazena a distância na linha correspondente
             line[index] = dist[u];
@@ -51,7 +31,7 @@ void dijkstra_line(Graph *graph, int source, double *line, int *set_target_a, in
         }
 
         // Verifica se o vértice u está no conjunto B
-        int _index = is_in(u, set_target_b, size_set_target_b);
+        int _index = get_index_binary(u, set_target_b, size_set_target_b);
         if (_index != -1) {
             // Calcula o índice da coluna correspondente na matriz, sabendo que o conjunto B vem depois do conjunto A
             int target = _index + size_set_target_a;

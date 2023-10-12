@@ -31,6 +31,12 @@ typedef struct graph Graph;
  */
 Graph *graph_create(int V, graph_type type, graph_direction direction);
 
+/*
+ * Pega a lista de adjacência do vértice v.
+ * param graph: grafo
+ * param v: vértice v
+ * return: lista de adjacência do vértice v
+ */
 Node* graph_get_adjacency_list(Graph *graph, int v);
 
 /*

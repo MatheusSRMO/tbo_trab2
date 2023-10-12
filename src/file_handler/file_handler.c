@@ -2,16 +2,13 @@
 
 /*
 Format file:
-Todas as informac¸oes ser ˜ ao dadas em um arquivo de entrada. Este arquivo vai conter uma descric¸ ˜ ao de todos os ˜
-nos, arestas, pesos e conjuntos ´ S, C e M.
-A primeira linha do arquivo tera´ |V | e |E|. A segunda linha do arquivo tera os valores de ´ |S|, |C| e |M|. Apos´
-isso:
-1. as proximas ´ |S| linhas indicam os nos que s ´ ao servidores; ˜
-2. as proximas ´ |C| linhas indicam os nos que s ´ ao clientes; ˜
-3. as proximas ´ |M| linhas indicam os nos que s ´ ao monitores; ˜
-4. cada uma das proximas ´ |E| linhas tera tr ´ es valores, ˆ x, y e z, indicando que ha uma aresta de ´ x para y e que
-z e o valor de ´ ω(x, y).
-A seguir, o conteudo do arquivo relativo ao exemplo da Figura 1, assumindo que ´ S = {0}, C = {4} e M = {1, 2}.
+Todas as informações serão dadas em um arquivo de entrada. Este arquivo vai conter uma descricção de todos os nós, arestas, pesos e conjuntos  S, C e M.
+A primeira linha do arquivo terá |V | e |E|. A segunda linha do arquivo tera os valores de |S|, |C| e |M|. Apos isso:
+1. as proximas |S| linhas indicam os nos que são servidores;
+2. as proximas |C| linhas indicam os nos que são clientes;
+3. as proximas |M| linhas indicam os nos que são monitores;
+4. cada uma das proximas |E| linhas tera trés valores, x, y e z, indicando que ha uma aresta de x para y e que z e o valor de ω(x, y).
+A seguir, o conteudo do arquivo relativo ao exemplo da Figura 1, assumindo que S = {0}, C = {4} e M = {1, 2}.
 5 9
 1 1 2
 0
@@ -31,27 +28,36 @@ A seguir, o conteudo do arquivo relativo ao exemplo da Figura 1, assumindo que �
 */
 
 Graph *file_handler_read_file(char *file_name, int **s, int *size_s, int **c, int *size_c, int **m, int *size_m) {
+    // Inicializa os vetores
     int v, e;
     int _s, _c, _m;
 
+    // Abre o arquivo
     FILE *file = fopen(file_name, "r");
 
+    // Verifica se o arquivo foi aberto corretamente
     if(file == NULL) {
         printf("Erro: arquivo não encontrado\n");
         exit(1);
     }
 
+    // Lê os valores de |V| e |E|
     fscanf(file, "%d %d", &v, &e);
+
+    // Lê os valores de |S|, |C| e |M|
     fscanf(file, "%d %d %d", &_s, &_c, &_m);
 
+    // Armazena os tamanhos dos conjuntos
     *size_s = _s;
     *size_c = _c;
     *size_m = _m;
 
+    // Aloca os conjuntos
     *s = (int *) malloc(sizeof(int) * _s);
     *c = (int *) malloc(sizeof(int) * _c);
     *m = (int *) malloc(sizeof(int) * _m);
 
+    // Lê os valores dos conjuntos
     for(int i = 0; i < _s; i++) {
         fscanf(file, "%d", &(*s)[i]);
     }
@@ -64,7 +70,10 @@ Graph *file_handler_read_file(char *file_name, int **s, int *size_s, int **c, in
         fscanf(file, "%d", &(*m)[i]);
     }
 
+    // Cria o grafo
     Graph *graph = graph_create(v, adj_list, directed);
+    
+    // Lê as arestas
     for(int i = 0; i < e; i++) {
         int x, y;
         double z;
