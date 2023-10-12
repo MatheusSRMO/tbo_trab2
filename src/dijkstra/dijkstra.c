@@ -1,12 +1,24 @@
 #include "dijkstra.h"
 
-int is_in(int v, int *vertices, int size) {
-    for(int i = 0; i < size; i++) {
-        if(vertices[i] == v) {
+int is_in(int v, int *vertices, int size) {    
+    for(int i = 0; i < size; i++) {        
+        if(vertices[i] == v) {            
             return i;
         }
-    }
+    }    
     return -1;
+}
+
+void print_vector(int *vector, int size) {
+    printf("[");
+    for(int i = 0; i < size; i++) {
+        printf("%d", vector[i]);
+        if(i != size - 1) {
+            printf(", ");
+        }
+    }
+    printf("]\n");
+    printf("\n");
 }
 
 
@@ -125,7 +137,7 @@ Complexidade: O(|S|×(|V|+|E|log|V|))
 */
 
 // Função dijkstra que retorna a linha, dada um s e um conjunto C
-void dijkstra_line(Graph *graph, int source, double *line, int *c, int size_c, double *dist, MinHeap* heap) {
+void dijkstra_line(Graph *graph, int source, double *line, int *set_target_a, int size_set_target_a, int *set_target_b, int size_set_target_b, int *map, double *dist, MinHeap *heap) {
     // Initialize the dist vector with INT_MAX.
     for (int i = 0; i < graph_get_V(graph); i++) {
         dist[i] = INT_MAX;
@@ -145,9 +157,19 @@ void dijkstra_line(Graph *graph, int source, double *line, int *c, int size_c, d
         int u = id(item);
 
         // Verify id u is in C
-        int index = is_in(u, c, size_c);
+        int index = is_in(u, set_target_a, size_set_target_a);
         if (index != -1) {
+            // Dado um id de um vertice, retorna a coluna correspondente na matriz
             line[index] = dist[u];
+            map[u] = index;
+            // printf("u: %d, index: %d\n", u, index);
+        }
+        int _index = is_in(u, set_target_b, size_set_target_b);
+        if (_index != -1) {
+            // Dado um id de um vertice, retorna a coluna correspondente na matriz
+            int target = _index + size_set_target_a;
+            line[target] = dist[u];
+            map[u] = target;
         }
 
         Node *node = graph_get_adjacency_list(graph, u);
@@ -161,3 +183,4 @@ void dijkstra_line(Graph *graph, int source, double *line, int *c, int size_c, d
         }
     }
 }
+
