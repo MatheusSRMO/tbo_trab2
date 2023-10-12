@@ -84,3 +84,11 @@ Graph *file_handler_read_file(char *file_name, int **s, int *size_s, int **c, in
     fclose(file);
     return graph;
 }
+
+void file_handler_write_file(char *file_name, Ratio *ratios, int size) {
+    FILE *file = fopen(file_name, "w");
+    for(int i = 0; i < size; i++) {
+        fprintf(file, "%d %d %lf\n", ratios[i].a, ratios[i].b, ratios[i].ratio);
+    }
+    fclose(file);
+}
