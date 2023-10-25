@@ -50,7 +50,7 @@ int main(int argc, char const *argv[]) {
 
 
     // Estrutura auxiliar para armazenar os valores de S, C e a razão entre os RTTs (para posterior ordenação)
-    Ratio *ratios = (Ratio *) malloc(sizeof(Ratio) * size_s * size_c);
+    Relation *ratios = (Relation *) malloc(sizeof(Relation) * size_s * size_c);
 
 
     // Calcula os RTTs e armazena na estrutura auxiliar
@@ -61,13 +61,13 @@ int main(int argc, char const *argv[]) {
 
             ratios[i * size_c + j].a = s[i];
             ratios[i * size_c + j].b = c[j];
-            ratios[i * size_c + j].ratio = rtt_sm / rtt_sc;
+            ratios[i * size_c + j].weight = rtt_sm / rtt_sc;
         }
     }
 
 
     // Ordena a estrutura auxiliar
-    qsort(ratios, size_s * size_c, sizeof(Ratio), ratio_compare);
+    qsort(ratios, size_s * size_c, sizeof(Relation), relation_compare_w);
 
 
     // Escreve o arquivo de saída

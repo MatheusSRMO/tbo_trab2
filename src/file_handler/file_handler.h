@@ -18,6 +18,6 @@
 Graph *file_handler_read_file(char *file_name, int **s, int *size_s, int **c, int *size_c, int **m, int *size_m);
 
 
-void file_handler_write_file(char *file_name, Ratio *ratios, int size);
+void file_handler_write_file(char *file_name, Relation *ratios, int size);
 
 #endif // _FILE_HANDLER_H_

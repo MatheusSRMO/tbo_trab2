@@ -60,20 +60,6 @@ void show_sets(int *s, int size_s, int *c, int size_c, int *m, int size_m) {
     printf("\n");
 }
 
-int ratio_compare(const void *a, const void *b) {
-    Ratio *ra = (Ratio *) a;
-    Ratio *rb = (Ratio *) b;
-    if(ra->ratio < rb->ratio) {
-        return -1;
-    }
-    else if(ra->ratio > rb->ratio) {
-        return 1;
-    }
-    else {
-        return 0;
-    }
-}
-
 int int_compare(const void *a, const void *b) {
     int *ia = (int *) a;
     int *ib = (int *) b;
@@ -86,4 +72,30 @@ int int_compare(const void *a, const void *b) {
     else {
         return 0;
     }
+}
+
+int relation_compare_w(const void *a, const void *b) {
+    Relation *ra = (Relation *) a;
+    Relation *rb = (Relation *) b;
+    if(ra->weight < rb->weight) {
+        return -1;
+    }
+    else if(ra->weight > rb->weight) {
+        return 1;
+    }
+    else {
+        return 0;
+    }
+}
+
+int relation_compare_a(const void *a, const void *b) {
+    Relation *e1 = (Relation *) a;
+    Relation *e2 = (Relation *) b;
+    return e1->a - e2->a;
+}
+
+int relation_compare_b(const void *a, const void *b) {
+    Relation *e1 = (Relation *) a;
+    Relation *e2 = (Relation *) b;
+    return e1->b - e2->b;
 }

@@ -3,17 +3,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
+// Estrutura auxiliar para armazenar par ids a um peso
 typedef struct {
     int a;
     int b;
-    double ratio;
-} Ratio;
+    double weight;
+} Relation;
 
-/// @brief Compara duas razões
-/// @param a Primeira razão
-/// @param b Segunda razão
+
+/// @brief Compara duas relações pelo peso
+/// @param a Primeira relação
+/// @param b Segunda relação
 /// @return Retorna -1 se a < b, 1 se a > b e 0 se a == b
-int ratio_compare(const void *a, const void *b);
+int relation_compare_w(const void *a, const void *b);
+
+/// @brief Compara duas relações pelo vértice a
+/// @param a 
+/// @param b 
+/// @return Retorna -1 se a < b, 1 se a > b e 0 se a == b
+int relation_compare_a(const void *a, const void *b);
+
+/// @brief Compara duas relações pelo vértice b
+/// @param a 
+/// @param b 
+/// @return 
+int relation_compare_b(const void *a, const void *b);
 
 /// @brief Compara dois inteiros
 /// @param a Primeiro inteiro
@@ -48,5 +63,7 @@ void print_vector(int *vector, int size);
 /// @param size Tamanho do vetor de vértices
 /// @return Retorna o indice do vértice no vetor de vértices, caso o vértice não esteja no vetor, retorna -1
 int get_index_binary(int v, int *vertices, int size);
+
+
 
 #endif // _UTILS_H_

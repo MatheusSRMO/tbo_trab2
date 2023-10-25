@@ -72,23 +72,37 @@ Graph *file_handler_read_file(char *file_name, int **s, int *size_s, int **c, in
 
     // Cria o grafo
     Graph *graph = graph_create(v, adj_list, directed);
+
+    // Estrutura auxiliar para armazenar as arestas
+    Relation *edges = (Relation *) malloc(sizeof(Relation) * e);
     
     // Lê as arestas
     for(int i = 0; i < e; i++) {
         int x, y;
         double z;
         fscanf(file, "%d %d %lf", &x, &y, &z);
-        graph_add_edge(graph, x, y, z);
+        edges[i].a = x;
+        edges[i].b = y;
+        edges[i].weight = z;
     }
 
+    // Ordena as arestas pelo primeiro vértice
+    qsort(edges, e, sizeof(Relation), relation_compare_a);
+
+    // Adiciona as arestas no grafo
+    for(int i = 0; i < e; i++) {
+        graph_add_edge(graph, edges[i].a, edges[i].b, edges[i].weight);
+    }
+
+    free(edges);
     fclose(file);
     return graph;
 }
 
-void file_handler_write_file(char *file_name, Ratio *ratios, int size) {
+void file_handler_write_file(char *file_name, Relation *ratios, int size) {
     FILE *file = fopen(file_name, "w");
     for(int i = 0; i < size; i++) {
-        fprintf(file, "%d %d %.16lf\n", ratios[i].a, ratios[i].b, ratios[i].ratio);
+        fprintf(file, "%d %d %.16lf\n", ratios[i].a, ratios[i].b, ratios[i].weight);
     }
     fclose(file);
 }
